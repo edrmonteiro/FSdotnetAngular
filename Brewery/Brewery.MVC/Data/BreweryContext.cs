@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Brewery.MVC.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class BreweryContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public BreweryContext(DbContextOptions<BreweryContext> options)
             : base(options)
         {
         }

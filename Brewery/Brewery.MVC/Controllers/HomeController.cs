@@ -1,4 +1,7 @@
-﻿using Brewery.MVC.Models;
+﻿using Brewery.MVC.Data;
+using Brewery.MVC.Dtos;
+using Brewery.MVC.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,7 +21,7 @@ namespace Brewery.MVC.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
