@@ -71,6 +71,7 @@ namespace Brewery.MVC.Data
             }
 
         }
+
         public async Task<LoginDto> LoginUser(UserDto userDto)
         {
             try
@@ -90,6 +91,35 @@ namespace Brewery.MVC.Data
             catch (System.Exception ex)
             {
                 return new LoginDto { StatusCode = 500, ErrorMessage = ex.Message };
+            }
+        }
+
+        public async Task<UserPassChangeDto> ChangePassword(UserPassChangeDto userPassChangeDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(userPassChangeDto.Email);
+                if (user == null)
+                {
+                    return new UserPassChangeDto { StatusCode = 404, Message = $"Unable to load user with ID ."} ;
+                }
+
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, userPassChangeDto.OldPassword, userPassChangeDto.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    var errorMessage = ""; 
+                    foreach (var error in changePasswordResult.Errors)
+                    {
+                        
+                        errorMessage = errorMessage + " / " +  error.Description;
+                    }
+                    return new UserPassChangeDto { StatusCode = 400, Message = errorMessage } ;
+                }
+                return new UserPassChangeDto { StatusCode = 200, Message = "Your password has been changed." } ;
+            }
+            catch (System.Exception ex)
+            {
+                return new UserPassChangeDto { StatusCode = 500, Message = ex.Message };
             }
         }
 

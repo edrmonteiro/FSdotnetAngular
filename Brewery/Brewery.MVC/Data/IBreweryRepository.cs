@@ -15,5 +15,6 @@ namespace Brewery.MVC.Data
 
         Task<LoginDto> RegisterUser(UserDto userDto);
         Task<LoginDto> LoginUser(UserDto userDto);
+        Task<UserPassChangeDto> ChangePassword(UserPassChangeDto userPassChangeDto);
     }
 }
