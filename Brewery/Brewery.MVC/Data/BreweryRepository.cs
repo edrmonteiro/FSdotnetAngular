@@ -138,24 +138,12 @@ namespace Brewery.MVC.Data
                 foreach(var user in users)
                 {   
                     var roles = await _userManager.GetRolesAsync(user);
-                    var role = "";
+                    var isAdmin = false;
                     if (roles.Count > 0)
-                        role = roles[0];
-                    usersDto.Add(new UserDto{ Email = user.Email, Role = role});
+                        isAdmin = true;
+                    usersDto.Add(new UserDto{ Email = user.Email, Admin = isAdmin});
                 }
                 return ( new StatusDto { StatusCode = 200} , usersDto );
-                // var changePasswordResult = await _userManager.ChangePasswordAsync(user, userPassChangeDto.OldPassword, userPassChangeDto.NewPassword);
-                // if (!changePasswordResult.Succeeded)
-                // {
-                //     var errorMessage = ""; 
-                //     foreach (var error in changePasswordResult.Errors)
-                //     {
-                        
-                //         errorMessage = errorMessage + " / " +  error.Description;
-                //     }
-                //     return new UserPassChangeDto { StatusCode = 400, Message = errorMessage } ;
-                // }
-                // return new UserPassChangeDto { StatusCode = 200, Message = "Your password has been changed." } ;
             }
             catch (System.Exception ex)
             {
