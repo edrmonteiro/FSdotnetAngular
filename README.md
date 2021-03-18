@@ -21,3 +21,11 @@ pass: 123456
 role Admin
 
 Only admins users can retrieve user list using GetAllUsers
+
+### 3
+Dotnet:
+New API methods included:
+AddUser
+RemoveUser
+AddAdminStatus2User
+RemoveAdminStatusFromUser

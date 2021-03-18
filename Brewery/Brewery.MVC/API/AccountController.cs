@@ -80,8 +80,8 @@ namespace Brewery.API.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(UserPassChangeDto userPassChangeDto)
         {
-            var tokenEmail = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
-            if (tokenEmail != userPassChangeDto.Email)
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            if (adminToken != userPassChangeDto.Email)
             {
                 return BadRequest("Authenticated user different from email informed");
             }
@@ -109,8 +109,8 @@ namespace Brewery.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetAllUsers()
         {
-            var tokenEmail = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
-            var (status, users) = await _repo.GetAllUsers(tokenEmail);
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var (status, users) = await _repo.GetAllUsers(adminToken);
             switch (status.StatusCode)
             {
                 case 200:
@@ -127,10 +127,85 @@ namespace Brewery.API.Controllers
 
         }
 
+        [HttpPost("AddUser")]
+        [Authorize]
+        public async Task<IActionResult> AddUser(UserDto userDto)
+        {
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var (status, user) = await _repo.AddUser(userDto, adminToken);
+            switch (status.StatusCode) 
+            {
+                case 200:
+                    return Created("GetUser", user);
+                case 400:
+                    return BadRequest(status.Message);
+                case 500:
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"error {status.Message}");
+                default:
+                    break;
+            }
+            return BadRequest();
+        }
 
+        [HttpPost("RemoveUser")]
+        [Authorize]
+        public async Task<IActionResult> RemoveUser(UserDto userDto)
+        {
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var status = await _repo.RemoveUser(userDto, adminToken);
+            switch (status.StatusCode) 
+            {
+                case 200:
+                    return Ok("User removed");
+                case 400:
+                    return BadRequest(status.Message);
+                case 500:
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"error {status.Message}");
+                default:
+                    break;
+            }
+            return BadRequest();
+        }
 
+        [HttpPost("AddAdminStatus2User")]
+        [Authorize]
+        public async Task<IActionResult> AddAdminStatus2User(UserDto userDto)
+        {
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var (status, user) = await _repo.AddAdminStatus2User(userDto, adminToken);
+            switch (status.StatusCode) 
+            {
+                case 200:
+                    return Ok(user);
+                case 400:
+                    return BadRequest(status.Message);
+                case 500:
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"error {status.Message}");
+                default:
+                    break;
+            }
+            return BadRequest();
+        }
 
-
+        [HttpPost("RemoveAdminStatusFromUser")]
+        [Authorize]
+        public async Task<IActionResult> RemoveAdminStatusFromUser(UserDto userDto)
+        {
+            var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var (status, user) = await _repo.RemoveAdminStatusFromUser(userDto, adminToken);
+            switch (status.StatusCode) 
+            {
+                case 200:
+                    return Ok(user);
+                case 400:
+                    return BadRequest(status.Message);
+                case 500:
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, $"error {status.Message}");
+                default:
+                    break;
+            }
+            return BadRequest();
+        }
 
 
     }

@@ -16,5 +16,9 @@ namespace Brewery.MVC.Data
         Task<LoginDto> LoginUser(UserDto userDto);
         Task<UserPassChangeDto> ChangePassword(UserPassChangeDto userPassChangeDto);
         Task<(StatusDto, List<UserDto>)> GetAllUsers(string userAdmin);
+        Task<(StatusDto, UserDto)> AddUser(UserDto userDto, string userAdmin);
+        Task<StatusDto> RemoveUser(UserDto userDto, string userAdmin);
+        Task<(StatusDto, UserDto)> AddAdminStatus2User(UserDto userDto, string userAdmin);
+        Task<(StatusDto, UserDto)> RemoveAdminStatusFromUser(UserDto userDto, string userAdmin);
     }
 }

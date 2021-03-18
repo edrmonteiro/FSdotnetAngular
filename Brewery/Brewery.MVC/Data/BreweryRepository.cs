@@ -84,7 +84,8 @@ namespace Brewery.MVC.Data
                     var appUser = await _userManager.Users
                                     .FirstOrDefaultAsync(u => u.NormalizedUserName == userDto.Email.ToUpper());
                     var userToReturn = _mapper.Map<UserDto>(appUser);
-                    return new LoginDto { StatusCode = 200, User = userToReturn, Token = TokenService.GenerateToken(appUser) };
+                    userToReturn.Admin = await isEmailAdmin(userDto.Email);
+                    return new LoginDto { StatusCode = 200, User = userToReturn, Token = TokenService.GenerateToken(appUser)};
                 }
                 return new LoginDto { StatusCode = 401} ;
             }
@@ -126,12 +127,9 @@ namespace Brewery.MVC.Data
         {
             try
             {
-                var admin = await _userManager.FindByEmailAsync(userAdmin);
-                var adminRoles = await _userManager.GetRolesAsync(admin);
-                var adminRole = adminRoles.Where(r => r == "Admin").FirstOrDefault();
-                if (adminRole != "Admin")
+                if (!await isEmailAdmin(userAdmin))
                 {
-                    return (new StatusDto { StatusCode = 404, Message = "Only Admins can get the useres list"} , null);
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can retrieve users list"} , null);
                 }
                 var users = _userManager.Users.ToList();
                 var usersDto = new List<UserDto>();
@@ -151,6 +149,133 @@ namespace Brewery.MVC.Data
             }
             return ( new StatusDto { StatusCode = 500} , null );
         }
+
+        
+        public async Task<(StatusDto, UserDto)> AddUser(UserDto userDto, string userAdmin)
+        {
+            try
+            {
+                if (!await isEmailAdmin(userAdmin))
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can add user"} , null);
+                }
+                var user = new IdentityUser { UserName = userDto.Email, Email = userDto.Email };
+                var result = await _userManager.CreateAsync(user, userDto.Password);
+                
+                if (result.Succeeded)
+                {
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var result1 = await _userManager.ConfirmEmailAsync(user, code);
+                    if (userDto.Admin)
+                    {
+                        await _userManager.AddToRoleAsync(user, "Admin");
+                    }
+
+                    var userToReturn = _mapper.Map<UserDto>(user);
+                    return (new StatusDto { StatusCode = 200}, userDto);
+                }
+                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)}, null);
+            }
+            catch (System.Exception ex)
+            {
+                return (new StatusDto { StatusCode = 500, Message = ex.Message }, null);
+            }
+
+        }
+
+        public async Task<StatusDto> RemoveUser(UserDto userDto, string userAdmin)
+        {
+            try
+            {
+                if (!await isEmailAdmin(userAdmin))
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can add user"});
+                }
+                var user = await _userManager.FindByEmailAsync(userDto.Email);
+                if (user == null)
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "User does not exists"});
+                }
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return (new StatusDto { StatusCode = 200, Message = "user removed successfully"});
+                }
+                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)});
+            }
+            catch (System.Exception ex)
+            {
+                return (new StatusDto { StatusCode = 500, Message = ex.Message });
+            }
+
+        }
+
+        public async Task<(StatusDto, UserDto)> AddAdminStatus2User(UserDto userDto, string userAdmin)
+        {
+            try
+            {
+                if (!await isEmailAdmin(userAdmin))
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can turn a user into admin"} , null);
+                }
+                var user = await _userManager.FindByEmailAsync(userDto.Email);
+                if (user == null)
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "User does not exists"}, null);
+                }
+
+                var result = await _userManager.AddToRoleAsync(user, "Admin");
+                if (result.Succeeded)
+                {
+                    userDto.Admin = true;
+                    return (new StatusDto { StatusCode = 200}, userDto);
+                }
+                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)}, null);
+            }
+            catch (System.Exception ex)
+            {
+                return (new StatusDto { StatusCode = 500, Message = ex.Message }, null);
+            }
+
+        }
+
+        public async Task<(StatusDto, UserDto)> RemoveAdminStatusFromUser(UserDto userDto, string userAdmin)
+        {
+            try
+            {
+                if (!await isEmailAdmin(userAdmin))
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can turn a user into admin"} , null);
+                }
+                var user = await _userManager.FindByEmailAsync(userDto.Email);
+                if (user == null)
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "User does not exists"}, null);
+                }
+
+                var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+                if (result.Succeeded)
+                {
+                    userDto.Admin = false;
+                    return (new StatusDto { StatusCode = 200}, userDto);
+                }
+                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)}, null);
+            }
+            catch (System.Exception ex)
+            {
+                return (new StatusDto { StatusCode = 500, Message = ex.Message }, null);
+            }
+
+        }
+        public async Task<Boolean> isEmailAdmin(string userAdmin)
+        {
+            var admin = await _userManager.FindByEmailAsync(userAdmin);
+            var adminRoles = await _userManager.GetRolesAsync(admin);
+            var adminRole = adminRoles.Where(r => r == "Admin").FirstOrDefault();
+            return adminRole == "Admin";
+        }
+
+
 
     }
 }
