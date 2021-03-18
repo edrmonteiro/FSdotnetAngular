@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { User } from 'src/app/user/User';
+import { User } from 'src/app/shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -43,4 +43,28 @@ export class UserService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
+  getAllUsers(): Observable<User[]> {
+    //console.log(user);
+    return this.http.get<User[]>(this.baseURL+"GetAllUsers", { headers: this.getHeaders()});
+  }
+
+  turnAdminOn(user: User):Observable<User> {
+    return this.http.post<User>(this.baseURL+"AddAdminStatus2User", user, { headers: this.getHeaders()});
+  }
+
+  turnAdminOff(user: User):Observable<User> {
+    return this.http.post<User>(this.baseURL+"RemoveAdminStatusFromUser", user, { headers: this.getHeaders()});
+  }
+
+  addUser(user: User):Observable<User> {
+    return this.http.post<User>(this.baseURL+"AddUser", user, { headers: this.getHeaders()});
+  }
+
+  removeUser(user: User):Observable<User> {
+    return this.http.post<User>(this.baseURL+"RemoveUser", user, { headers: this.getHeaders()});
+  }
+  
+  getHeaders(): HttpHeaders {
+    return new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
+  }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../User';
 import { UserService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-registration',
@@ -39,9 +39,11 @@ export class RegistrationComponent implements OnInit {
 
   subscribe() {
     if (this.registerForm.value){
-      this.user = new User();
-      this.user.email = this.registerForm.get('email').value;
-      this.user.password = this.registerForm.get('passwords.password').value;
+      this.user = {
+        email: this.registerForm.get('email').value,
+        password: this.registerForm.get('passwords.password').value,
+        admin: false
+      }
 
       this.userService.register(this.user).subscribe(
         () => {

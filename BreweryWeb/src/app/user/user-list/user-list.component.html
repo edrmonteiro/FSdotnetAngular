@@ -1,12 +1,4 @@
-<form action="form-online">
-  <div class="form-group mb-2">
-    <div class="form-inline mr-auto">
-      <input type="text" class="form-control mr-2" placeholder="search">
-      <button class="btn btn-outline-sucess"> search </button>  
-    </div>
-  </div>
-</form>
-
+<h2> Management Users </h2>
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
@@ -14,14 +6,16 @@
       <th>Admin</th>
       <th></th>
       <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr> 
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-    </tr>
+    <tr *ngFor="let user of users">
+          <td>{{ user.email }}</td>
+          <td>{{ user.admin }}  </td>
+          <td *ngIf="!user.admin"> <button class="btn btn-sm btn-primary btn-block" (click)="turnAdminOn(user)">admin on</button> </td>
+          <td *ngIf="user.admin"> <button class="btn btn-sm btn-info btn-block" (click)="turnAdminOff(user)">admin off</button> </td>
+          <td> <button class="btn btn-sm btn-danger btn-block" (click)="remove(user)">Remove</button> </td>
+    </tr> 
   </tbody>
 </table>

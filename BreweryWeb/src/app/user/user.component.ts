@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -7,13 +6,10 @@ import { UserService } from '../core/services/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
   isLogged: boolean;
-
-  constructor(private authService: UserService) { }
+  constructor() { }
 
   ngOnInit(): void {
-
   }
 
 }

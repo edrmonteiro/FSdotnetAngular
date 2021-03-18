@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/core/services/user.service';
-import { User } from '../User';
+import { User } from 'src/app/shared/models/user';
 
 @Component({
   selector: 'app-login',
@@ -25,9 +25,11 @@ export class LoginComponent implements OnInit {
     }
   }
   login(): void {
-    var user = new User();
-    user.email = this.email;
-    user.password = this.password;
+    var user:User = { 
+      email: this.email, 
+      password: this.password, 
+      admin: false
+    };
     this.authService.login(user).subscribe(
       (result) => {
         //console.log(result);
