@@ -122,7 +122,47 @@ namespace Brewery.MVC.Data
                 return new UserPassChangeDto { StatusCode = 500, Message = ex.Message };
             }
         }
-
+        public async Task<(StatusDto, List<UserDto>)> GetAllUsers(string userAdmin)
+        {
+            try
+            {
+                var admin = await _userManager.FindByEmailAsync(userAdmin);
+                var adminRoles = await _userManager.GetRolesAsync(admin);
+                var adminRole = adminRoles.Where(r => r == "Admin").FirstOrDefault();
+                if (adminRole != "Admin")
+                {
+                    return (new StatusDto { StatusCode = 404, Message = "Only Admins can get the useres list"} , null);
+                }
+                var users = _userManager.Users.ToList();
+                var usersDto = new List<UserDto>();
+                foreach(var user in users)
+                {   
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var role = "";
+                    if (roles.Count > 0)
+                        role = roles[0];
+                    usersDto.Add(new UserDto{ Email = user.Email, Role = role});
+                }
+                return ( new StatusDto { StatusCode = 200} , usersDto );
+                // var changePasswordResult = await _userManager.ChangePasswordAsync(user, userPassChangeDto.OldPassword, userPassChangeDto.NewPassword);
+                // if (!changePasswordResult.Succeeded)
+                // {
+                //     var errorMessage = ""; 
+                //     foreach (var error in changePasswordResult.Errors)
+                //     {
+                        
+                //         errorMessage = errorMessage + " / " +  error.Description;
+                //     }
+                //     return new UserPassChangeDto { StatusCode = 400, Message = errorMessage } ;
+                // }
+                // return new UserPassChangeDto { StatusCode = 200, Message = "Your password has been changed." } ;
+            }
+            catch (System.Exception ex)
+            {
+                return ( new StatusDto { StatusCode = 500, Message = ex.Message } , null );
+            }
+            return ( new StatusDto { StatusCode = 500} , null );
+        }
 
     }
 }

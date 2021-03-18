@@ -104,5 +104,34 @@ namespace Brewery.API.Controllers
             return BadRequest();
 
         }
+
+        [HttpGet("GetAllUsers")]
+        [Authorize]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var tokenEmail = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
+            var (status, users) = await _repo.GetAllUsers(tokenEmail);
+            switch (status.StatusCode)
+            {
+                case 200:
+                    return Ok(users);
+                case 400:
+                case 404:
+                    return BadRequest(status.Message);
+                case 500:
+                    return this.StatusCode(StatusCodes.Status500InternalServerError, status.Message);
+                default:
+                    break;
+            }
+            return BadRequest();
+
+        }
+
+
+
+
+
+
+
     }
 }

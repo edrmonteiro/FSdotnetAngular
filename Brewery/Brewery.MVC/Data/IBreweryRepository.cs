@@ -12,9 +12,9 @@ namespace Brewery.MVC.Data
         void Update<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveChangesAsync();
-
         Task<LoginDto> RegisterUser(UserDto userDto);
         Task<LoginDto> LoginUser(UserDto userDto);
         Task<UserPassChangeDto> ChangePassword(UserPassChangeDto userPassChangeDto);
+        Task<(StatusDto, List<UserDto>)> GetAllUsers(string userAdmin);
     }
 }

@@ -37,7 +37,8 @@ namespace Brewery.MVC
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => {
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -45,7 +46,10 @@ namespace Brewery.MVC
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
             })
+            .AddRoles<IdentityRole>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
             .AddEntityFrameworkStores<BreweryContext>();
+            
 
             services.AddScoped<IBreweryRepository, BreweryRepository>();
 
@@ -74,10 +78,11 @@ namespace Brewery.MVC
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Brewery.API", Version = "v1" });
             });
+                    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -113,6 +118,8 @@ namespace Brewery.MVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            DataInitializer.CreateUserRoles(services).Wait();
+            
         }
     }
 }
