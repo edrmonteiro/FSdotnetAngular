@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../core/services/auth.service';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,14 +13,14 @@ export class NavComponent implements OnInit {
   user: string;
   constructor(public router: Router,
     private toastr: ToastrService,
-    private authService: AuthService,) { }
+    private userService: UserService,) { }
 
   ngOnInit() {
     status = "logged";
   }
   loggedIn(){
     this.user = localStorage.getItem('email');
-    return this.authService.loggedIn();    
+    return this.userService.loggedIn();    
   }
   
   logout(){

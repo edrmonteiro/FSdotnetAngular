@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../User';
-import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(public fb: FormBuilder,
               private toastr: ToastrService,
-              private authService: AuthService,
+              private userService: UserService,
               public router: Router,
               ) { }
 
@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
       this.user.email = this.registerForm.get('email').value;
       this.user.password = this.registerForm.get('passwords.password').value;
 
-      this.authService.register(this.user).subscribe(
+      this.userService.register(this.user).subscribe(
         () => {
           this.router.navigate(['/user/login']);
           this.toastr.success('User subscribed')

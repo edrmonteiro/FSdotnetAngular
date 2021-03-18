@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../core/services/auth.service';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-user',
@@ -10,7 +10,7 @@ export class UserComponent implements OnInit {
 
   isLogged: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: UserService) { }
 
   ngOnInit(): void {
 
