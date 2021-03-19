@@ -29,3 +29,10 @@ AddUser
 RemoveUser
 AddAdminStatus2User
 RemoveAdminStatusFromUser
+
+### 4
+Agular n.ew methods:
+AddUser
+RemoveUser
+AddAdminStatus2User
+RemoveAdminStatusFromUser
