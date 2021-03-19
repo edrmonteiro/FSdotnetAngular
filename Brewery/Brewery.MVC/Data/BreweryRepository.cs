@@ -183,29 +183,29 @@ namespace Brewery.MVC.Data
 
         }
 
-        public async Task<StatusDto> RemoveUser(UserDto userDto, string userAdmin)
+        public async Task<(StatusDto, UserDto)> RemoveUser(UserDto userDto, string userAdmin)
         {
             try
             {
                 if (!await isEmailAdmin(userAdmin))
                 {
-                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can add user"});
+                    return (new StatusDto { StatusCode = 404, Message = "Only admin users can add user"}, userDto);
                 }
                 var user = await _userManager.FindByEmailAsync(userDto.Email);
                 if (user == null)
                 {
-                    return (new StatusDto { StatusCode = 404, Message = "User does not exists"});
+                    return (new StatusDto { StatusCode = 404, Message = "User does not exists"}, userDto);
                 }
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    return (new StatusDto { StatusCode = 200, Message = "user removed successfully"});
+                    return (new StatusDto { StatusCode = 200, Message = "user removed successfully"}, userDto);
                 }
-                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)});
+                return (new StatusDto { StatusCode = 400, Message = Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors)}, userDto);
             }
             catch (System.Exception ex)
             {
-                return (new StatusDto { StatusCode = 500, Message = ex.Message });
+                return (new StatusDto { StatusCode = 500, Message = ex.Message }, userDto);
             }
 
         }

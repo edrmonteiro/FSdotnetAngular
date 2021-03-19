@@ -152,11 +152,11 @@ namespace Brewery.API.Controllers
         public async Task<IActionResult> RemoveUser(UserDto userDto)
         {
             var adminToken = User.Claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()?.Value;
-            var status = await _repo.RemoveUser(userDto, adminToken);
+            var (status, user) = await _repo.RemoveUser(userDto, adminToken);
             switch (status.StatusCode) 
             {
                 case 200:
-                    return Ok("User removed");
+                    return Ok(user);
                 case 400:
                     return BadRequest(status.Message);
                 case 500:
