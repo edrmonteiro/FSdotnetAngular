@@ -1,4 +1,4 @@
-﻿using Brewery.MVC.Data;
+﻿using Brewery.Repository.Data;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 
-namespace Brewery.MVC.Services
+namespace Brewery.Repository.Services
 {
     public static class TokenService
     {

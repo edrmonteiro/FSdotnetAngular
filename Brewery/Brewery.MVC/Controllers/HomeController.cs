@@ -1,5 +1,5 @@
-﻿using Brewery.MVC.Data;
-using Brewery.MVC.Dtos;
+﻿using Brewery.Repository.Data;
+using Brewery.Domain.Dtos;
 using Brewery.MVC.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

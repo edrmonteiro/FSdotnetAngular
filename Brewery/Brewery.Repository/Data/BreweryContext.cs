@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Brewery.MVC.Data
+namespace Brewery.Repository.Data
 {
     public class BreweryContext : IdentityDbContext
     {

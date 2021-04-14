@@ -1,10 +1,10 @@
-﻿using Brewery.MVC.Dtos;
+﻿using Brewery.Domain.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Brewery.MVC.Data
+namespace Brewery.Repository.Contracts
 {
     public interface IBreweryRepository
     {

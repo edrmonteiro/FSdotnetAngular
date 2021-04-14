@@ -1,5 +1,6 @@
 using AutoMapper;
-using Brewery.MVC.Data;
+using Brewery.Repository.Contracts;
+using Brewery.Repository.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,8 +34,13 @@ namespace Brewery.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddDbContext<BreweryContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BreweryContext>
+                (options =>
+                    options.UseSqlServer(
+                                        Configuration.GetConnectionString("DefaultConnection"),
+                                        b => b.MigrationsAssembly("Brewery.MVC")
+                                        )
+                );
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options =>
@@ -53,7 +59,7 @@ namespace Brewery.MVC
 
             services.AddScoped<IBreweryRepository, BreweryRepository>();
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllersWithViews();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);

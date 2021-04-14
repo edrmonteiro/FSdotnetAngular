@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Brewery.MVC.Data;
-using Brewery.MVC.Dtos;
-using Brewery.MVC.Services;
+using Brewery.Repository.Data;
+using Brewery.Domain.Dtos;
+using Brewery.Repository.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Brewery.Repository.Contracts;
 
 namespace Brewery.API.Controllers
 {

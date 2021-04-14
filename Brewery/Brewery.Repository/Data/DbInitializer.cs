@@ -1,6 +1,6 @@
 using AutoMapper;
-using Brewery.MVC.Dtos;
-using Brewery.MVC.Services;
+using Brewery.Domain.Dtos;
+using Brewery.Repository.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Brewery.MVC.Data
+namespace Brewery.Repository.Data
 {
     public static class DataInitializer 
     {

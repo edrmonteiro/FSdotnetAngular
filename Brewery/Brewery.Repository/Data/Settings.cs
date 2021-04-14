@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Brewery.MVC.Data
+namespace Brewery.Repository.Data
 {
     public static class Settings
     {

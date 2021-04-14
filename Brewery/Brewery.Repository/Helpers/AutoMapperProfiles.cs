@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Brewery.MVC.Dtos;
+using Brewery.Domain.Dtos;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Brewery.MVC.Helpers
+namespace Brewery.Repository.Helpers
 {
     public class AutoMapperProfiles : Profile
     {

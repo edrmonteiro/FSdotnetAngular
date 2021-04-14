@@ -1,4 +1,4 @@
-namespace Brewery.MVC.Dtos
+namespace Brewery.Domain.Dtos
 {
     public class StatusDto
     {
