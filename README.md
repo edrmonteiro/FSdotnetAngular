@@ -36,3 +36,11 @@ AddUser
 RemoveUser
 AddAdminStatus2User
 RemoveAdminStatusFromUser
+
+### 5
+BeerType and BeerStyle models
+
+### 6
+Tests included
+Dotnet - xunit and Moq
+Angular - cypress
