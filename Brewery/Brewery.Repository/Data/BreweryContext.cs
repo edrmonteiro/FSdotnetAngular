@@ -17,6 +17,10 @@ namespace Brewery.Repository.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+        public virtual void SetModified(object entity)
+        {
+            Entry(entity).State = EntityState.Modified;
+        }
         public DbSet<BeerType> BeerTypes { get; set; }
         public DbSet<BeerStyle> BeerStyles { get; set; }
 

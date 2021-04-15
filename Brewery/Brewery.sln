@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brewery.Domain", "Brewery.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Brewery.Repository", "Brewery.Repository\Brewery.Repository.csproj", "{EBE59BE2-0EA4-43B3-AE68-5052308EF013}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreweryMVC.Test", "BreweryMVC.Test\BreweryMVC.Test.csproj", "{F1C0C073-C846-47EB-A854-58F91F606A0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EBE59BE2-0EA4-43B3-AE68-5052308EF013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBE59BE2-0EA4-43B3-AE68-5052308EF013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBE59BE2-0EA4-43B3-AE68-5052308EF013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1C0C073-C846-47EB-A854-58F91F606A0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1C0C073-C846-47EB-A854-58F91F606A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1C0C073-C846-47EB-A854-58F91F606A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1C0C073-C846-47EB-A854-58F91F606A0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

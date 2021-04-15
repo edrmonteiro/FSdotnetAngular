@@ -33,6 +33,9 @@ namespace Brewery.MVC.API
         [HttpGet("GetById{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+            var item = await _repo.GetItemAsync<BeerType>(id);
+            Console.WriteLine(item);
+            //return Ok(new BeerType { Type = "test type" });
             return Ok(await _repo.GetItemAsync<BeerType>(id));
         }
 
