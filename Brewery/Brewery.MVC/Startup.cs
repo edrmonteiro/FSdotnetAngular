@@ -125,7 +125,8 @@ namespace Brewery.MVC
                 endpoints.MapRazorPages();
             });
             DataInitializer.CreateUserRoles(services).Wait();
-            
+            DataInitializer.CreateInitialBeers(services).Wait();
+
         }
     }
 }

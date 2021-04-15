@@ -46,6 +46,18 @@ namespace Brewery.Repository.Data
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
+        public async Task<List<T>> GetAllAsync<T>() where T : class
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+        public List<T> GetAll<T>() where T : class
+        {
+            return _context.Set<T>().ToList();
+        }
+        public async Task<T> GetItemAsync<T>(int id) where T : class
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
 
         //Account
 
