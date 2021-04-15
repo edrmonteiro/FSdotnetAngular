@@ -41,12 +41,13 @@ namespace Brewery.Repository.Data
                         await _userManager.AddToRoleAsync(user, "Admin");
                     }
                 }
+
             }
             catch (System.Exception ex)
             {
+                
             }
         }
-
         public static async Task CreateInitialBeers(IServiceProvider serviceProvider)
         {
             try
@@ -86,7 +87,7 @@ namespace Brewery.Repository.Data
                             InitialDensity = "1.045-1.056",
                             FinalDensity = "1.010-1.015",
                             SRM = "4-11"
-                        },                    
+                        },
                         new BeerStyle
                         {
                             Type = beerType[0],
@@ -96,7 +97,7 @@ namespace Brewery.Repository.Data
                             InitialDensity = "1.050-1.075",
                             FinalDensity = "1.012-1.018",
                             SRM = "8-14"
-                        },                    
+                        },
                         new BeerStyle
                         {
                             Type = beerType[0],
@@ -106,7 +107,7 @@ namespace Brewery.Repository.Data
                             InitialDensity = "1.043-1.056",
                             FinalDensity = "1.008-1.016",
                             SRM = "11-18"
-                        },                
+                        },
                     };
                     beerStyle.ForEach(s => _repo.Add(s));
                     await _repo.SaveChangesAsync();
@@ -118,5 +119,9 @@ namespace Brewery.Repository.Data
 
             }
         }
+
+
+
+
     }
 }

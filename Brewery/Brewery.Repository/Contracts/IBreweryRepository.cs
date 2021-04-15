@@ -15,6 +15,7 @@ namespace Brewery.Repository.Contracts
         Task<List<T>> GetAllAsync<T>() where T : class;
         List<T> GetAll<T>() where T : class;
         Task<T> GetItemAsync<T>(int id) where T : class;
+
         Task<LoginDto> RegisterUser(UserDto userDto);
         Task<LoginDto> LoginUser(UserDto userDto);
         Task<UserPassChangeDto> ChangePassword(UserPassChangeDto userPassChangeDto);

@@ -18,4 +18,5 @@ namespace Brewery.Domain
         public string FinalDensity { get; set; }
         public string SRM { get; set; }
     }
+
 }

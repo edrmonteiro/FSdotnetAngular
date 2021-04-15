@@ -19,5 +19,6 @@ namespace Brewery.Repository.Data
         }
         public DbSet<BeerType> BeerTypes { get; set; }
         public DbSet<BeerStyle> BeerStyles { get; set; }
+
     }
 }

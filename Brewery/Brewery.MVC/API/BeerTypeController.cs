@@ -1,4 +1,5 @@
-﻿using Brewery.Domain;
+﻿
+using Brewery.Domain;
 using Brewery.Repository.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Brewery.Domain
 {
@@ -9,4 +12,5 @@ namespace Brewery.Domain
         public string Type { get; set; }
         public List<BeerStyle> Styles { get; set; }
     }
+
 }
